@@ -1,0 +1,32 @@
+#!/bin/bash
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
+if [ -z $1 ]; then
+    echo "Description: ";
+    echo "Used to create containers using LXD/LXC";
+    echo "";
+    echo "Usage: createcontainer container_name [ipv6_address] [base_image]";
+    exit 1;
+fi
+address=$2;
+baseimage=$3;
+if [ -z $2 ]; then
+    address="";
+fi
+if [ -z $3 ]; then
+    baseimage="ubuntu:18.04";
+fi
+lxc launch $baseimage $1 &&
+lxc network attach lxcbr0 $1 eth0 eth0 &&
+sleep 5 &&
+publicip=$(python3 -W ignore ./addipv6.py $address) &&
+privip=$(python3 -W ignore ./getprivipv6.py $1) &&
+echo "** Public IP for $1: $publicip";
+echo "* Private IP for $1: $privip";
+sleep 5
+./postinstall $1;
+ip6tables -t nat -A PREROUTING -d $publicip -j DNAT --to-destination $privip
+ip6tables-save > /etc/iptables/rules.v6
+
