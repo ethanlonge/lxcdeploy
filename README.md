@@ -107,32 +107,32 @@ To configure the script, rename `sampleconfig.yaml` to `config.yaml` and replace
 
 ### Container_defaults
 #### image
-The default image for the creation of LXD/LXC containers (default is "ubuntu:18.04")
+The default image for the creation of LXD/LXC containers (default is "ubuntu:18.04") \ 
 Example: `"ubuntu:18.04"`
 
 ### Networking
 #### fqdn 
-Your fully qualified domain name (for DNS records)
+Your fully qualified domain name (for DNS records) \ 
 Example: `"example.com"`
 #### ipv4
-Your public IPv4 address of your server
+Your public IPv4 address of your server \ 
 Example: `"93.184.216.34"`
 #### ipv6
-Your public IPv6 address of your server
+Your public IPv6 address of your server \ 
 Example: `"2001:0DB8:DEAD:BEEF:1337:3114:ab13:3152"`
 #### ipv6_prefix
-Your IPv6 /64 prefix with trailing colon 
+Your IPv6 /64 prefix with trailing colon \ 
 Example: `"2001:0DB8:DEAD:BEEF:"`
 #### ipv6_container_prefix
-A prefix for between your public prefix and container number
-Example: `"1337:0420:0069:"` in `"2001:0DB8:DEAD:BEEF:`<b>`1337:0420:0069:`</b>`0001"`
+A prefix for between your public prefix and container number \ 
+Example: `"1337:0420:0069:"` in \ `"2001:0DB8:DEAD:BEEF:`<b>`1337:0420:0069:`</b>`0001"`
 
 #### DNS
 
 ##### ttl
-The TTL for your DNS records (default is 3600)
+The TTL for your DNS records (default is 3600) \ 
 Example: `3600`
 
 ##### zone_db
-The location of your BIND zone
+The location of your BIND zone \ 
 Example: `"/etc/bind/zones/db.example.com"`
