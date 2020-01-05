@@ -81,13 +81,34 @@ Bash:
 ### Configuration
 To configure the script, rename `sampleconfig.yaml` to `config.yaml` and replace the values.
 
-networking.fqdn: Your fully qualified domain name (for DNS records)
-networking.ipv4: Your public IPv4 address of your server
-networking.ipv6: Your public IPv6 address of your server
-networking.ipv6_prefix: Your IPv6 /64 prefix with trailing colon (eg. "2001:0DB8:DEAD:BEEF:")
-networking.ipv6_container_prefix: A prefix for between your public prefix and container number (eg. "1337:0420:0069:")
+### Container_defaults
+#### image
+The default image for the creation of LXD/LXC containers (default is "ubuntu:18.04")
+Example: `"ubuntu:18.04"`
 
-networking.dns.ttl: The TTL for your DNS records (default is 3600)
-networking.dns.zone_db: The location of your BIND zone (eg. "/etc/bind/zones/db.server-name")
+### Networking
+#### fqdn 
+Your fully qualified domain name (for DNS records)
+Example: `"example.com"`
+#### ipv4
+Your public IPv4 address of your server
+Example: `"93.184.216.34"`
+#### ipv6
+Your public IPv6 address of your server
+Example: `"2001:0DB8:DEAD:BEEF:1337:3114:ab13:3152"`
+#### ipv6_prefix
+Your IPv6 /64 prefix with trailing colon 
+Example: `"2001:0DB8:DEAD:BEEF:"`
+#### ipv6_container_prefix
+A prefix for between your public prefix and container number
+Example: `"1337:0420:0069:"` in `"2001:0DB8:DEAD:BEEF:`<b>`1337:0420:0069:`</b>`0001"`
 
-container_defaults.image: The default image for the creation of LXD/LXC containers (default is "ubuntu:18.04")
+#### DNS
+
+##### ttl
+The TTL for your DNS records (default is 3600)
+Example: `3600`
+
+##### zone_db
+The location of your BIND zone
+Example: `"/etc/bind/zones/db.example.com"`
