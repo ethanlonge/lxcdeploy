@@ -11,6 +11,7 @@ It is designed with the following in mind:
 - You are (or will be) using LXC/LXD for containers
 - You are using Netplan to manage your public IPv6 addresses and have set it up for static IPv6 addresses 
 - You are (or will be) using BIND for DNS records for hostnames for the container (There is an example config for BIND further down)
+- Your LXC network bridge is named `lxcbr0`
 
 ## Table of Contents
 - [LXCDeploy](#lxcdeploy)
