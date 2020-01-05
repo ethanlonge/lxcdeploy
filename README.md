@@ -78,7 +78,7 @@ Bash:
     dig txtrec.server-name txt +short ; Should output "TestConf" if your configuration is working
 ```
 
-### Configuration
+## Configuration
 To configure the script, rename `sampleconfig.yaml` to `config.yaml` and replace the values.
 
 ### Container_defaults
