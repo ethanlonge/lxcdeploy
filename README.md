@@ -7,6 +7,11 @@ This is a simple script that allows the easy creation of LXC/LXD containers for 
 - Assignment of random root password
 - Enabling of SSH for remote access
 
+It is designed with the following in mind:
+- You are (or will be) using LXC/LXD for containers
+- You are using Netplan to manage your public IPv6 addresses and have set it up for static IPv6 addresses 
+- You are (or will be) using BIND for DNS records for hostnames for the container (There is an example config for BIND further town)
+
 ## Table of Contents
 - [LXCDeploy](#lxcdeploy)
   - [Table of Contents](#table-of-contents)
