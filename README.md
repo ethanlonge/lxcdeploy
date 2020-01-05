@@ -7,6 +7,25 @@ This is a simple script that allows the easy creation of LXC/LXD containers for 
 - Assignment of random root password
 - Enabling of SSH for remote access
 
+## Table of Contents
+- [LXCDeploy](#lxcdeploy)
+  - [Table of Contents](#table-of-contents)
+  - [Install](#install)
+    - [Requirements](#requirements)
+    - [BIND Config](#bind-config)
+  - [Configuration](#configuration)
+    - [Container_defaults](#containerdefaults)
+      - [image](#image)
+    - [Networking](#networking)
+      - [fqdn](#fqdn)
+      - [ipv4](#ipv4)
+      - [ipv6](#ipv6)
+      - [ipv6_prefix](#ipv6prefix)
+      - [ipv6_container_prefix](#ipv6containerprefix)
+      - [DNS](#dns)
+        - [ttl](#ttl)
+        - [zone_db](#zonedb)
+
 ## Install
 ### Requirements
 ```bash
