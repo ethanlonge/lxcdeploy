@@ -7,26 +7,57 @@ if [ -z $1 ]; then
     echo "Description: ";
     echo "Used to create containers using LXD/LXC";
     echo "";
-    echo "Usage: createcontainer container_name [ipv6_address] [base_image]";
+    echo "Usage: createcontainer container_name [base_image] [ipv6_address]";
     exit 1;
 fi
-address=$2;
-baseimage=$3;
-if [ -z $2 ]; then
+function parse_yaml {
+   local prefix=$2
+   local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
+   sed -ne "s|^\($s\):|\1|" \
+        -e "s|^\($s\)\($w\)$s:$s[\"']\(.*\)[\"']$s\$|\1$fs\2$fs\3|p" \
+        -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  $1 |
+   awk -F$fs '{
+      indent = length($1)/2;
+      vname[indent] = $2;
+      for (i in vname) {if (i > indent) {delete vname[i]}}
+      if (length($3) > 0) {
+         vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("_")}
+         printf("%s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
+      }
+   }'
+}
+eval $(parse_yaml defaults.yaml);
+eval $(parse_yaml config.yaml);
+
+export config_networking_fqdn config_networking_ipv4 config_networking_dns_ttl config_networking_dns_zone_db config_networking_ipv6_container_prefix config_networking_ipv6_prefix 
+
+address=$3;
+baseimage=$2;
+if [ -z $3 ]; then
     address="";
 fi
-if [ -z $3 ]; then
-    baseimage="ubuntu:18.04";
+if [ -z $2 ]; then
+    baseimage=$config_container_defaults_image;
 fi
+echo "#### Creating Container";
 lxc launch $baseimage $1 &&
 lxc network attach lxcbr0 $1 eth0 eth0 &&
 sleep 5 &&
-publicip=$(python3 -W ignore ./addipv6.py $address) &&
-privip=$(python3 -W ignore ./getprivipv6.py $1) &&
-echo "** Public IP for $1: $publicip";
-echo "* Private IP for $1: $privip";
+publicip=$(python3 -W ignore ./scripts/addipv6.py $address) &&
+privip=$(python3 -W ignore ./scripts/getprivipv6.py $1) &&
+ip6tables -t nat -A PREROUTING -d $publicip -j DNAT --to-destination $privip;
+echo "#### Configuration Information";
+echo "** Public IP for $1: ${publicip%????}";
+echo "** Private IP for $1: $privip";
+
+hostnames=()
+while read line ; do
+  hostnames+=($line)
+done < <(python3 -W ignore ./scripts/addhostname.py $1 ${publicip%????})
+echo "** IPv6 Only Hostname for $1: ${hostnames[0]}";
+echo "** Hybrid Hostname for $1: ${hostnames[1]}";
+
 sleep 5
-./postinstall $1;
-ip6tables -t nat -A PREROUTING -d $publicip -j DNAT --to-destination $privip
+./scripts/postinstall $1;
 ip6tables-save > /etc/iptables/rules.v6
 

@@ -1,0 +1,15 @@
+config:
+  networking:
+    fqdn: "example.com"
+    ipv4: "xxx.xxx.xxx.xxx"
+    ipv6: "xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx"
+    ipv6_prefix: "xxxx:xxxx:xxxx:xxxx:"
+    ipv6_container_prefix: "1337:0420:0069:"
+
+    dns:
+      ttl: 3600
+      zone_db: "/etc/bind/zones/db.example.com"
+
+  container_defaults:
+    image: "ubuntu:18.04"
+

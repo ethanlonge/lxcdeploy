@@ -1,8 +1,0 @@
-#!/bin/bash
-pw=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1)
-echo -e "$pw\n$pw" | lxc exec $1 -- passwd root 2>&1 > /dev/null
-echo "** New Root Password: $pw";
-lxc file push sshd_config $1/etc/ssh/ &&
-lxc exec $1 -- service ssh restart
-lxc file push sources.list $1/etc/apt/
-
