@@ -77,3 +77,17 @@ Bash:
 ```bash
     dig txtrec.server-name txt +short ; Should output "TestConf" if your configuration is working
 ```
+
+### Configuration
+To configure the script, rename `sampleconfig.yaml` to `config.yaml` and replace the values.
+
+networking.fqdn: Your fully qualified domain name (for DNS records)
+networking.ipv4: Your public IPv4 address of your server
+networking.ipv6: Your public IPv6 address of your server
+networking.ipv6_prefix: Your IPv6 /64 prefix with trailing colon (eg. "2001:0DB8:DEAD:BEEF:")
+networking.ipv6_container_prefix: A prefix for between your public prefix and container number (eg. "1337:0420:0069:")
+
+networking.dns.ttl: The TTL for your DNS records (default is 3600)
+networking.dns.zone_db: The location of your BIND zone (eg. "/etc/bind/zones/db.server-name")
+
+container_defaults.image: The default image for the creation of LXD/LXC containers (default is "ubuntu:18.04")
