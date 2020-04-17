@@ -45,10 +45,12 @@ lxc network attach lxcbr0 $1 eth0 eth0 &&
 sleep 5 &&
 publicip=$(python3 -W ignore ./scripts/addipv6.py $address) &&
 privip=$(python3 -W ignore ./scripts/getprivipv6.py $1) &&
+privipv4=$(python3 -W ignore ./scripts/getprivipv4.py $1) &&
 ip6tables -t nat -A PREROUTING -d $publicip -j DNAT --to-destination $privip;
 echo "#### Configuration Information";
 echo "** Public IP for $1: ${publicip%????}";
 echo "** Private IP for $1: $privip";
+echo "** Private IPv4 for $1: $privipv4";
 
 hostnames=()
 while read line ; do
@@ -59,5 +61,6 @@ echo "** Hybrid Hostname for $1: ${hostnames[1]}";
 
 sleep 5
 ./scripts/postinstall $1;
+python3 scripts/addapachesite.py $privipv4 $1;
 ip6tables-save > /etc/iptables/rules.v6
 

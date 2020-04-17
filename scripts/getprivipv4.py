@@ -2,15 +2,15 @@ import sys
 import pylxd
 
 
-def getPrivIPv6():
+def getPrivIPv4():
     eth0 = pylxd.Client().containers.get(sys.argv[1]).state().network.get("eth0")
     for address in eth0["addresses"]:
-        if address["family"] == "inet6" and address["scope"] == "global":
+        if address["family"] == "inet" and address["scope"] == "global":
             return address["address"]
     return ""
 
 if (len(sys.argv) > 1):
-    ip = "" 
+    ip = ""
     while ip == "":
-        ip = getPrivIPv6()
+        ip = getPrivIPv4()
     print(ip)
